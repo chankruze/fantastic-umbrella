@@ -1,42 +1,22 @@
-import { useSearchNews } from "hooks/reactQuery/useNewsApi";
-import useQueryParams from "hooks/useQueryParams";
 import { keysToSnakeCase } from "neetocist";
 import { NoData, Pagination, Spinner } from "neetoui";
-import { isEmpty, mergeLeft, propOr } from "ramda";
+import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-import routes from "routes";
-import { buildUrl } from "utils/url";
 
-import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from "./constants";
 import NewsCard from "./NewsCard";
 
-const ListNews = () => {
-  const history = useHistory();
+import { DEFAULT_PAGE_SIZE } from "../constants";
 
-  const queryParams = useQueryParams();
-
+const ListNews = ({
+  articles,
+  isFetching,
+  totalResults,
+  handlePageNavigation,
+  currentPage,
+}) => {
   const { t } = useTranslation();
 
-  const searchParams = {
-    q: propOr(null, "searchTerm", queryParams),
-    page: Number(propOr(DEFAULT_PAGE_NUMBER, "page", queryParams)),
-    from: propOr(null, "from", queryParams),
-    to: propOr(null, "to", queryParams),
-    sources: propOr(null, "sources", queryParams),
-    category: propOr(null, "category", queryParams),
-  };
-
-  const { data: { articles = [], totalResults } = {}, isFetching } =
-    useSearchNews(searchParams);
-
-  const handlePageNavigation = page =>
-    history.replace(
-      buildUrl(routes.news.index, mergeLeft({ page }, queryParams))
-    );
-
   const noNewsAvailable = isEmpty(articles);
-  const currentPage = Number(propOr(DEFAULT_PAGE_NUMBER, "page", queryParams));
 
   return (
     <>

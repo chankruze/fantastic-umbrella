@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
+import { updateSearchTermInQueryParams } from "components/News/utils";
 import dayjs from "dayjs";
 import useFuncDebounce from "hooks/useFuncDebounce";
 import useQueryParams from "hooks/useQueryParams";
 import { filterNonNull } from "neetocist";
 import { Button, DatePicker, Input, Pane, Select, Typography } from "neetoui";
-import { assoc } from "ramda";
+import { assoc, propOr } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import routes from "routes";
@@ -15,7 +16,10 @@ import { getNewsCategoryOptions } from "./utils";
 
 const FilterPane = ({ isOpen, closePane }) => {
   const [searchKey, setSearchKey] = useState("");
-  const [publicationDate, setPublicationDate] = useState(dayjs());
+  const [publicationDate, setPublicationDate] = useState(
+    dayjs().subtract(2, "weeks")
+  );
+
   const [newsCategories, setNewsCategories] = useState(
     () => getNewsCategoryOptions()[0]
   );
@@ -26,7 +30,13 @@ const FilterPane = ({ isOpen, closePane }) => {
 
   const queryParams = useQueryParams();
 
-  const newsCategoryOptions = getNewsCategoryOptions();
+  const searchParams = {
+    q: propOr(null, "searchTerm", queryParams),
+    from: propOr(null, "from", queryParams),
+    category: propOr(null, "category", queryParams),
+  };
+
+  const newsCategoryOptions = useMemo(() => getNewsCategoryOptions(), []);
 
   const updateFiltersInQueryParams = useFuncDebounce(
     ({ categories = [], publicationDate, keywords }) => {
@@ -69,12 +79,33 @@ const FilterPane = ({ isOpen, closePane }) => {
     updateFiltersInQueryParams({ categories: selectedCategories });
   };
 
+  const clearAll = useFuncDebounce(() =>
+    updateSearchTermInQueryParams("", queryParams, history)
+  );
+
   const handlePublicationDateChange = selectedDate => {
     setPublicationDate(selectedDate);
     updateFiltersInQueryParams({ publicationDate: selectedDate });
   };
 
-  console.log(publicationDate);
+  useEffect(() => {
+    if (searchParams.q) setSearchKey(searchParams.q);
+
+    if (searchParams.category) {
+      const selectedCategories = searchParams.category.split(",");
+
+      const filteredOptions = newsCategoryOptions.filter(option =>
+        selectedCategories.includes(option.value)
+      );
+
+      setNewsCategories(filteredOptions);
+    }
+  }, [
+    searchParams.q,
+    searchParams.category,
+    newsCategoryOptions,
+    publicationDate,
+  ]);
 
   return (
     <Pane closeOnEsc isOpen={isOpen} onClose={closePane}>
@@ -88,6 +119,7 @@ const FilterPane = ({ isOpen, closePane }) => {
           <Input
             required
             className="w-full flex-grow-0"
+            defaultValue={searchParams.q}
             label="Keyword or a phrase"
             placeholder="Enter keyword"
             value={searchKey}
@@ -113,8 +145,8 @@ const FilterPane = ({ isOpen, closePane }) => {
         </div>
       </Pane.Body>
       <Pane.Footer className="flex space-x-2">
-        <Button label="Done" style="primary" />
-        <Button label="Clear all" style="secondary" />
+        <Button label="Done" style="primary" onClick={closePane} />
+        <Button label="Clear all" style="secondary" onClick={clearAll} />
       </Pane.Footer>
     </Pane>
   );
