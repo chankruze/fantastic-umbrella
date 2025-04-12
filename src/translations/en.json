@@ -1,0 +1,89 @@
+{
+  "title": {
+    "app": "Cine Searcher",
+    "page": "{{title}} | Cine Searcher",
+    "movies": "Movies",
+    "favourites": "Favourites"
+  },
+  "error": {
+    "networkError": "Network Error",
+    "movieNotFound": "Movie not found. Please try a different search.",
+    "noInternetConnection": "No internet connection. Please check your network and try again.",
+    "somethingWentWrong": "Something went wrong. Please try again later."
+  },
+  "movieDetails": {
+    "label": {
+      "Year": "Year: ",
+      "Actors": "Actors: ",
+      "Director": "Director: ",
+      "Box Office": "Box Office: ",
+      "Runtime": "Runtime: ",
+      "Language": "Language: ",
+      "Rated": "Rated: ",
+      "movieLabel": "Movie",
+      "seriesLabel": "Series",
+      "removeFromFavourites": "Remove from favourites",
+      "addToFavourites": "Add to favourites"
+    }
+  },
+  "viewHistory": {
+    "title": "View history",
+    "noHistory": "No history available.",
+    "clearHistory": "Clear history",
+    "clearHistoryAlertTitle": "Clear all view history",
+    "clearHistoryAlertMessage": "Are you sure you want to clear your view history? This action cannot be undone."
+  },
+  "viewHistoryListItem": {
+    "delete": "Delete {{title}} from history."
+  },
+  "movieCard": {
+    "button": "View details"
+  },
+  "movies": {
+    "searchPlaceholder": "Search movies (press / and start typing.)",
+    "noDataTitle": "No movies found.",
+    "noDataDescription": "Try searching something."
+  },
+  "pageNotFound": {
+    "noDataTitle": "The page you're looking for can't be found",
+    "btnPrimaryLabel": "Back to home"
+  },
+  "header": {
+    "brand": "<0>Cine</0><1>Searcher</1>",
+    "nav": {
+      "favourites": "Favourites",
+      "movies": "Home"
+    }
+  },
+  "favourites": {
+    "noFavorites": "Ahh! No favorite movies. Add some to your favorites!",
+    "movieRating": "<span1>Rating:</span1> <span2>{{imdbRating}}/10</span2>",
+    "movieTitle": "<typography>{{title}}</typography>",
+    "sectionHeading": "<typography>Your Favourite Movies ({{count}})</typography>"
+  },
+  "filter": {
+    "year": "Year",
+    "yearPlaceholder": "Year to search (i.e. 2010)",
+    "close": "Click to close.",
+    "filter": "Click to apply filters",
+    "type": "Type",
+    "validations": {
+      "typeError": "Year must be a number",
+      "exactLength": "Year must be exactly 4 digits",
+      "range": "Year must be between {{min}} and {{max}}",
+      "max": "Year must be less than or equal to {{max}}"
+    }
+  },
+  "sources": {
+    "bbcNews": "BBC News",
+    "theVerge": "The Verge",
+    "businessInsider": "Business Insider",
+    "time": "Time",
+    "theNextWeb": "The Next Web",
+    "abcNews": "ABC News",
+    "engadget": "Engadget",
+    "entertainmentWeekly": "Entertainment Weekly",
+    "espn": "ESPN",
+    "financialPost": "Financial Post"
+  }
+}

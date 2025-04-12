@@ -1,9 +1,14 @@
+import PageNotFound from "components/commons/PageNotFound";
+import News from "components/News";
+import { Redirect, Route, Switch } from "react-router-dom";
+import routes from "routes";
+
 const App = () => (
-  <div className="flex min-h-screen items-center justify-center dark:bg-gray-900 ">
-    <h1 className="text-4xl font-bold text-red-500 dark:text-white">
-      CineSearcher
-    </h1>
-  </div>
+  <Switch>
+    <Route exact component={News} path={routes.news.index} />
+    <Redirect exact from={routes.root} to={routes.news.index} />
+    <Route component={PageNotFound} path="*" />
+  </Switch>
 );
 
 export default App;
